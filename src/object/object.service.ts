@@ -41,6 +41,21 @@ export class ObjectService {
     }
     return object;
   }
+  async findByName(name: string) {
+    const object = await this.prismaService.object.findUnique({
+      where: {
+        name: name
+      },
+      include: {
+        events: true
+      }
+    });
+
+    if(!object){
+      throw new NotFoundException('Object not found');
+    }
+    return object;
+  }
 
   async update(objectId: string, updateObjectDto: UpdateObjectDto) {
 
